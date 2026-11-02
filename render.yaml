@@ -1,0 +1,42 @@
+services:
+  - type: web
+    name: b2b-procurement-bot
+    runtime: docker
+    plan: starter
+    healthCheckPath: /
+    envVars:
+      - key: BOT_TOKEN
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: SECRET_KEY
+        sync: false
+      - key: GREEN_API_INSTANCE
+        sync: false
+      - key: GREEN_API_TOKEN
+        sync: false
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASSWORD
+        sync: false
+      - key: WEBHOOK_SECRET
+        generateValue: true
+      - key: BASE_URL
+        sync: false   # https://<имя-сервиса>.onrender.com
+      - key: DATABASE_URL
+        fromDatabase: { name: b2b-db, property: connectionString }
+      - key: REDIS_URL
+        fromService: { type: keyvalue, name: b2b-redis, property: connectionString }
+
+databases:
+  - name: b2b-db
+    plan: basic-256mb
+
+keyValueStores:
+  - name: b2b-redis
+    plan: starter
+    ipAllowList: []
