@@ -33,7 +33,7 @@ async def run_polling(bot: Bot, dp: Dispatcher):
 
 
 def run_webhook(bot: Bot, dp: Dispatcher):
-    async def on_startup(_: Bot):
+    async def on_startup() -> None:  # aiogram передаёт данные по именам, поэтому без позиционных аргументов
         await bot.set_webhook(
             f"{settings.base_url}{WEBHOOK_PATH}",
             secret_token=settings.webhook_secret,
